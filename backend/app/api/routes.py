@@ -5,7 +5,7 @@ from fastapi.responses import RedirectResponse
 
 from api.auth import get_current_user, saml_login, oauth_login
 from api.schemas import (
-    User, Experiment, ExperimentCreate, Run, RunCreate, RunStatus,
+    User, Role, Experiment, ExperimentCreate, Run, RunCreate, RunStatus,
     ModelRecord, ModelRegister, ModelVersion,
     SearchSpace, SpaceCreate, OptimizeRequest, OptimizationStatus,
     ArchitectureRequest, AnalyzeRequest, PredictRequest, PredictResponse,

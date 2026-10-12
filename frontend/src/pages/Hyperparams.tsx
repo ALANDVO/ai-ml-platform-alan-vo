@@ -16,7 +16,7 @@ export default function Hyperparams() {
       if (res.data.length > 0) {
         setSpace(res.data[0]);
         const initial: Record<string, number | string> = {};
-        res.data[0].params.forEach((p) => {
+        res.data[0].params.forEach((p: HyperparamSpec) => {
           if (p.type === 'categorical') initial[p.name] = p.choices?.[0] || '';
           else initial[p.name] = (p.low ?? 0) + ((p.high ?? 1) - (p.low ?? 0)) / 2;
         });

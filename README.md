@@ -1,38 +1,41 @@
-# AI ML Training Platform
+# AI ML Training Platform — Alan Vo | AI & Machine Learning
 
-Enterprise ML training platform with experiment tracking, model registry, Bayesian hyperparameter optimization, LLM-powered architecture suggestions, and real-time training monitoring.
+> Work in progress. This checkpoint may be incomplete or fail tests. See PLAN.md and STATUS.md before use.
+
+
+Enterprise ML training platform with experiment tracking, model registry, Bayesian hyperparameter optimization, LLM-powered architecture suggestions, and real-time training monitoring. It addresses the end-to-end machine learning engineering workflow for AI researchers, ML platform engineers, and data scientists.
 
 ## Architecture
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│                        React Frontend                         │
-│  ┌─────────────┐  ┌───────────┐  ┌─────────┐  ┌──────────┐  │
-│  │ Experiments │  │  Training │  │ Models  │  │  Compare │  │
-│  │  Run List   │  │  Monitor  │  │ Registry│  │ A/B Diff │  │
-│  └─────────────┘  └───────────┘  └─────────┘  └──────────┘  │
-│  ┌─────────────┐  ┌─────────────────────────────────────────┐ │
-│  │ Hyperparams │  │  TrainingChart / ModelCard / Sliders    │ │
-│  │  Bayesian   │  │  (loss/accuracy curves, model cards)    │ │
-│  └─────────────┘  └─────────────────────────────────────────┘ │
-└───────────────────────────┬──────────────────────────────────┘
-                            │ REST /api/*
-┌───────────────────────────▼──────────────────────────────────┐
-│                      FastAPI Backend                           │
-│  ┌────────┐  ┌──────────────┐  ┌───────────────────────────┐  │
-│  │ Auth   │  │  Middleware  │  │           Routes           │  │
-│  │ SAML   │  │ Logging      │  │ /experiments /models /runs │  │
-│  │ JWT    │  │ Rate Limit   │  │ /training /hyperparams /llm│  │
-│  └────────┘  │ CORS         │  └───────────────────────────┘  │
-│              └──────────────┘                                 │
-│  ┌─────────────────────┐  ┌─────────────────────────────────┐ │
-│  │   Training Engine    │  │        LLM Integration          │ │
-│  │  Trainer + Callbacks │  │  Architecture Suggestions       │ │
-│  │  Optimizers (Bayes)  │  │  Experiment Analysis            │ │
-│  │  Registry + Versioning│ │                                  │ │
-│  │  Serving + Batching  │  │                                  │ │
-│  └─────────────────────┘  └─────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    subgraph Frontend["React 18 + TypeScript + Vite UI"]
+        UI_Exp["Experiments & Runs"]
+        UI_Train["Training Monitor"]
+        UI_Models["Model Registry & Rollback"]
+        UI_Opt["Bayesian Hyperparams"]
+    end
+
+    subgraph Backend["FastAPI Backend (backend/app/main.py)"]
+        API_Auth["Auth & RBAC Middleware"]
+        API_Routes["REST Endpoints (/api/*)"]
+        Engine["Training & Optimizer Engine"]
+        Registry["Model Registry Store"]
+        Batcher["Dynamic Inference Batcher"]
+        LLM_Adapter["Multi-Provider LLM Client"]
+    end
+
+    subgraph IdP["Identity Provider"]
+        Keycloak["Keycloak OIDC / SAML Broker"]
+    end
+
+    Frontend -->|REST API / Bearer JWT| API_Routes
+    API_Routes --> API_Auth
+    API_Auth -.->|OIDC / SAML SSO| Keycloak
+    API_Routes --> Engine
+    API_Routes --> Registry
+    API_Routes --> Batcher
+    API_Routes --> LLM_Adapter
 ```
 
 ## Quick Start
@@ -41,14 +44,52 @@ Enterprise ML training platform with experiment tracking, model registry, Bayesi
 git clone https://github.com/ALANDVO/ai-ml-platform-alan-vo.git
 cd ai-ml-platform-alan-vo
 cp .env.example .env
-docker compose up -d
-# Open http://localhost:8000
+
+# Run locally:
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r backend/requirements.txt
+PYTHONPATH=backend pytest backend/tests
+
+cd frontend
+npm ci
+npm run build
+npm test
 ```
+
+## AI & Machine Learning Evaluation
+
+The platform includes deterministic optimization algorithms (SGD, Adam, Bayesian acquisition) alongside simulated training convergence routines.
+
+### Reproducible Evaluation Command
+
+To execute the offline evaluation suite verifying optimization convergence and metric curves:
+
+```bash
+PYTHONPATH=backend .venv/bin/pytest backend/tests/test_core.py -v
+```
+
+### Data Provenance & Baseline
+- **Synthetic Quadratic Convex Optimization**: Baseline tracking optimizing $f(w) = (w - 3.0)^2$ from initial parameter $w_0 = 5.0$.
+- **Baseline Metric**: Adam convergence achieves $|w - 3.0| < 0.2$ within 200 optimization steps at learning rate $\eta = 0.1$.
+- **Hyperparameter Space Acquisition**: Evaluated across continuous learning rate intervals $[10^{-4}, 10^{-1}]$ and categorical optimizers (`adam`, `sgd`).
+- **Failure Cases**: Highly non-convex surfaces with ill-conditioned gradients without momentum may exhibit slower convergence or saddle point stagnation.
+
+## Provider Configuration
+
+LLM features (architecture suggestions and experiment analysis) are provider-agnostic and advisory. Keys are strictly server-side:
+
+| Variable | Required | Description | Default |
+|---|---|---|---|
+| `LLM_API_KEY` | Optional | API key for LLM suggestions | None |
+| `LLM_PROVIDER` | Optional | Provider adapter (`openai`, `anthropic`, `gemini`, `ollama`) | `openai` |
+| `LLM_BASE_URL` | Optional | Base endpoint URL for provider | `https://api.openai.com/v1` |
+| `LLM_MODEL` | Optional | Model identifier to request | `gpt-4o` |
 
 ## API Reference
 
 | Method | Endpoint | Description |
-|--------|----------|-------------|
+|---|---|---|
 | `POST` | `/api/auth/login` | SAML/SSO login or email login |
 | `GET` | `/api/auth/me` | Get current user |
 | `GET` | `/api/health` | Health check |
@@ -73,25 +114,25 @@ docker compose up -d
 
 ## SSO / SAML Setup
 
-1. Register your app in your IdP (Okta, ADFS, OneLogin) as a SAML Service Provider.
-2. Set these in `.env`:
+1. Register the application in Keycloak or upstream SAML Identity Provider (Okta, ADFS, OneLogin) as a Service Provider.
+2. Configure settings in `.env`:
    - `SAML_IDP_ENTITY` — IdP entity ID
-   - `SAML_IDP_CERT` — base64 IdP signing certificate
-   - `SAML_SP_ENTITY` — this app's entity ID (`https://yourdomain.com/saml/sp`)
+   - `SAML_IDP_CERT` — Base64 IdP signing certificate
+   - `SAML_SP_ENTITY` — SP entity ID (`https://yourdomain.com/saml/sp`)
    - `SAML_ACS_URL` — Assertion Consumer Service URL
-3. Map SAML attributes to roles: `admin` (full access), `ml_engineer` (training + registry), `viewer` (read-only).
-4. Restart the container; users authenticate at `/api/auth/login` (SAML redirect) or with a JWT via the OAuth2 flow.
+3. Map role assertions to: `admin` (full access), `ml_engineer` (training and registry mutations), `viewer` (read-only inspection).
+4. Unauthenticated requests are rejected with HTTP 401; unauthorized operations with HTTP 403.
 
 ## Docker Deployment
 
 ```bash
-docker compose up -d          # build + run
-docker compose logs -f app    # follow logs
+docker compose up -d          # build + run backend, frontend, and Keycloak
+docker compose logs -f backend # follow backend logs
 docker compose down           # stop
 ```
 
-Production: scale workers with `uvicorn main:app --workers 4`, mount `/app/data` for artifacts and `/app/checkpoints` for checkpoints, and put the container behind a TLS-terminating reverse proxy.
+Production deployment requires running behind a TLS reverse proxy with persistent volume mounts for data storage and checkpoints.
 
 ---
 
-**Built by [Alan Vo](https://github.com/ALANDVO)** | alanvo@gmail.com | AI, ML & Cybersecurity
+**Built by [Alan Vo](https://github.com/ALANDVO)** | alanvo@gmail.com | AI & Machine Learning

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "name": "ai-ml-platform-alan-vo",
+  "owner": "ALANDVO",
+  "email": "alanvo@gmail.com",
+  "domain": "ai-ml-platform",
+  "summary": "Work in progress: ai-ml-platform-alan-vo",
+  "workflows": [
+    "Experiment Tracking and Metrics Visualization",
+    "Model Registry with Versioning and Rollback",
+    "Bayesian Hyperparameter Optimization and Search Spaces",
+    "Real-time Training Monitoring and Dynamic Batching Inference"
+  ],
+  "auth": "oidc-keycloak-saml-broker",
+  "llm_providers": [
+    "openai-compatible",
+    "anthropic",
+    "gemini",
+    "ollama"
+  ],
+  "version": "1.0.0",
+  "status": "work-in-progress"
+}

@@ -1,4 +1,4 @@
-import time, logging
+import os, time, logging
 from collections import defaultdict
 from fastapi import Request, Response
 
@@ -21,16 +21,16 @@ class RateLimiter:
 
 _limiter = RateLimiter(max_requests=int(os.environ.get("RATE_LIMIT", "300")))
 
-def rate_limiter(request: Request, call_next):
+async def rate_limiter(request: Request, call_next):
     key = request.client.host if request.client else "unknown"
     if not _limiter.allow(key):
         from fastapi.responses import JSONResponse
         return JSONResponse(status_code=429, content={"detail": "Rate limit exceeded"})
-    return call_next(request)
+    return await call_next(request)
 
-def request_logger(request: Request, call_next):
+async def request_logger(request: Request, call_next):
     start = time.perf_counter()
-    response = call_next(request)
+    response = await call_next(request)
     elapsed = (time.perf_counter() - start) * 1000
     logger.info("%s %s → %d (%.1fms)", request.method, request.url.path, response.status_code, elapsed)
     response.headers["X-Process-Time-Ms"] = f"{elapsed:.1f}"

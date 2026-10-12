@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import client, { ModelRecord } from '../api/client';
+import client, { ModelRecord, ModelVersion } from '../api/client';
 
 interface CompareResult {
   model_id: string;
@@ -24,7 +24,7 @@ export default function Compare() {
       setModels(res.data);
       if (res.data.length > 0) {
         setModelId(res.data[0].id);
-        const versions = res.data[0].versions.map((v) => v.version);
+        const versions = res.data[0].versions.map((v: ModelVersion) => v.version);
         if (versions.length >= 2) {
           setVersionA(versions[0]);
           setVersionB(versions[versions.length - 1]);

@@ -8,7 +8,7 @@ class Settings(BaseModel):
     host: str = "0.0.0.0"
     port: int = 8000
     log_level: str = "INFO"
-    jwt_secret: str = "change-me-in-production"
+    jwt_secret: str = "change-me-in-production-secret-key-32bytes"
     jwt_expiry_minutes: int = 60
     llm_api_key: str = ""
     llm_base_url: str = "https://api.openai.com/v1"
@@ -30,7 +30,7 @@ settings = Settings(
     host=os.getenv("HOST", "0.0.0.0"),
     port=int(os.getenv("PORT", "8000")),
     log_level=os.getenv("LOG_LEVEL", "INFO"),
-    jwt_secret=os.getenv("JWT_SECRET", "change-me-in-production"),
+    jwt_secret=os.getenv("JWT_SECRET", "change-me-in-production-secret-key-32bytes"),
     jwt_expiry_minutes=int(os.getenv("JWT_EXPIRY_MINUTES", "60")),
     llm_api_key=os.getenv("LLM_API_KEY", ""),
     llm_base_url=os.getenv("LLM_BASE_URL", "https://api.openai.com/v1"),

@@ -15,3 +15,8 @@ frontend/dist/
 data/
 artifacts/
 checkpoints/
+*.db
+*.sqlite
+*.sqlite3
+.antigravitycli/
+.omp/

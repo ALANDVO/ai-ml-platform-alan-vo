@@ -8,11 +8,9 @@ from inference.batching import DynamicBatcher
 def test_adam_convergence():
     params = {"w": 5.0}
     opt = Adam(lr=0.1)
-    for i in range(200):
-        x = (params["w"] - 3.0) ** 2
+    for _ in range(200):
         grad = 2 * (params["w"] - 3.0)
-        opt.step({"w": params["w"]}, {"w": grad})
-        params["w"] = 5.0 - opt.lr * (2 * (5.0 - 3.0) / (abs(2 * (5.0 - 3.0)) + 1e-8))
+        opt.step(params, {"w": grad})
     assert abs(params["w"] - 3.0) < 1.0
 
 
@@ -49,11 +47,13 @@ def test_rng_deterministic():
     assert a == b
 
 
-async def test_batcher_processes():
-    batcher = DynamicBatcher(max_batch=2, timeout_ms=50)
-    results = await asyncio.gather(*[batcher.submit(i) for i in range(4)])
-    assert results == [0, 1, 2, 3]
-    assert batcher.total_items == 4
+def test_batcher_processes():
+    async def _run():
+        batcher = DynamicBatcher(max_batch=2, timeout_ms=50)
+        results = await asyncio.gather(*[batcher.submit(i) for i in range(4)])
+        assert results == [0, 1, 2, 3]
+        assert batcher.total_items == 4
+    asyncio.run(_run())
 
 
 def test_run_schema_roundtrip():

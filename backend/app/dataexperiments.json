@@ -28,5 +28,15 @@
     "status": "active",
     "created_at": 1791835583.270464,
     "run_count": 0
+  },
+  {
+    "id": "8fe037c9-4c27-487b-9151-c04b6aa4f86e",
+    "name": "Integration-Exp",
+    "description": "Integration test run",
+    "dataset": "cifar10",
+    "framework": "pytorch",
+    "status": "active",
+    "created_at": 1792538123.5426798,
+    "run_count": 0
   }
 ]

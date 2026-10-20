@@ -29,27 +29,20 @@
       ]
     },
     {
-      "id": "keycloak-oidc-pkce-integration",
-      "title": "End-to-end Keycloak OIDC authorization code flow with PKCE",
-      "status": "planned",
-      "acceptance": [
-        "OIDC discovery configuration from external realm",
-        "PKCE code challenge verification and token exchange endpoint",
-        "State and nonce validation rejecting replay attacks"
-      ],
-      "implementation": [],
-      "tests": []
-    },
-    {
       "id": "dynamic-batching-benchmarks",
       "title": "Inference server dynamic batching throughput benchmarks",
-      "status": "planned",
+      "status": "in_progress",
       "acceptance": [
         "Benchmarking harness measuring latency vs queue depth under simulated inference loads",
         "Adaptive timeout adjustment under variable concurrency"
       ],
-      "implementation": [],
-      "tests": []
+      "implementation": [
+        "backend/app/inference/benchmarks.py",
+        "backend/tests/test_benchmarks.py"
+      ],
+      "tests": [
+        "backend/tests/test_benchmarks.py"
+      ]
     }
   ]
 }

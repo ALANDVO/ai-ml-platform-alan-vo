@@ -22,20 +22,15 @@ Implementation: `backend/app/main.py`, `backend/app/api/routes.py`, `backend/app
 
 Tests: `backend/tests/test_core.py`, `backend/tests/test_api_integration.py`, `frontend/src/components/ModelCard.test.tsx`
 
-### keycloak-oidc-pkce-integration — End-to-end Keycloak OIDC authorization code flow with PKCE
-
-Status: planned
-
-Acceptance:
-- OIDC discovery configuration from external realm
-- PKCE code challenge verification and token exchange endpoint
-- State and nonce validation rejecting replay attacks
-
 ### dynamic-batching-benchmarks — Inference server dynamic batching throughput benchmarks
 
-Status: planned
+Status: in_progress
 
 Acceptance:
 - Benchmarking harness measuring latency vs queue depth under simulated inference loads
 - Adaptive timeout adjustment under variable concurrency
+
+Implementation: `backend/app/inference/benchmarks.py`, `backend/tests/test_benchmarks.py`
+
+Tests: `backend/tests/test_benchmarks.py`
 

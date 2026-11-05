@@ -4,7 +4,7 @@ Each round completes one feature or repair. Future items are planned, not implem
 
 ## Current round
 
-full-stack-baseline-and-packaging
+dynamic-batching-benchmarks
 
 ## Roadmap
 
@@ -24,13 +24,13 @@ Tests: `backend/tests/test_core.py`, `backend/tests/test_api_integration.py`, `f
 
 ### dynamic-batching-benchmarks — Inference server dynamic batching throughput benchmarks
 
-Status: in_progress
+Status: done
 
 Acceptance:
 - Benchmarking harness measuring latency vs queue depth under simulated inference loads
 - Adaptive timeout adjustment under variable concurrency
 
-Implementation: `backend/app/inference/benchmarks.py`, `backend/tests/test_benchmarks.py`
+Implementation: `backend/app/inference/benchmarks.py`, `backend/app/inference/batching.py`, `backend/tests/test_benchmarks.py`
 
 Tests: `backend/tests/test_benchmarks.py`
 

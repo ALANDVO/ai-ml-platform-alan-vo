@@ -9,7 +9,7 @@ import statistics
 import uuid
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Callable, Optional
-from inference.batching import DynamicBatcher, BatchItem
+from .batching import DynamicBatcher, BatchItem
 
 
 @dataclass

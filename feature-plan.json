@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "current_feature": "full-stack-baseline-and-packaging",
+  "current_feature": "dynamic-batching-benchmarks",
   "features": [
     {
       "id": "full-stack-baseline-and-packaging",
@@ -31,13 +31,14 @@
     {
       "id": "dynamic-batching-benchmarks",
       "title": "Inference server dynamic batching throughput benchmarks",
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         "Benchmarking harness measuring latency vs queue depth under simulated inference loads",
         "Adaptive timeout adjustment under variable concurrency"
       ],
       "implementation": [
         "backend/app/inference/benchmarks.py",
+        "backend/app/inference/batching.py",
         "backend/tests/test_benchmarks.py"
       ],
       "tests": [

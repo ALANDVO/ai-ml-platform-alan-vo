@@ -1,11 +1,14 @@
 """Model serving with warm-up, batching, and health checks."""
-import time, asyncio, uuid, logging
+import time
+import asyncio
+import uuid
+import logging
 from typing import List, Optional, Dict, Any
 
 import numpy as np
 
-from api.schemas import PredictRequest, PredictResponse
-from inference.batching import DynamicBatcher
+from ..api.schemas import PredictRequest, PredictResponse
+from .batching import DynamicBatcher
 
 logger = logging.getLogger(__name__)
 

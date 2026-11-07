@@ -28,3 +28,7 @@ All notable changes to this project will be documented in this file.
 - Real-time training loop monitoring and simulated trainer execution.
 - LLM-assisted architecture recommendations and experiment analysis with provider adapters.
 - Comprehensive unit and integration test suites for both backend and frontend.
+
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)

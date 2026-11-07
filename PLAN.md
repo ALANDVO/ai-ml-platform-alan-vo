@@ -34,3 +34,6 @@ Implementation: `backend/app/inference/benchmarks.py`, `backend/app/inference/ba
 
 Tests: `backend/tests/test_benchmarks.py`
 
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)

@@ -136,3 +136,7 @@ Production deployment requires running behind a TLS reverse proxy with persisten
 ---
 
 **Built by [Alan Vo](https://github.com/ALANDVO)** | alanvo@gmail.com | AI & Machine Learning
+
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)

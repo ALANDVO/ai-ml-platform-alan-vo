@@ -29,6 +29,12 @@ class DynamicBatcher:
         self._first_item_time: Optional[float] = None
         self.total_batches = 0
         self.total_items = 0
+        self._batch_sizes: List[int] = []
+        self._batch_size_callback: Optional[Callable[[int], None]] = None
+
+    def set_batch_size_callback(self, callback: Callable[[int], None]):
+        """Register callback to be called with batch size when a batch is flushed."""
+        self._batch_size_callback = callback
 
     async def submit(self, payload: Any) -> Any:
         item = BatchItem(payload)

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ai-ml-platform-alan-vo"
-version = "1.0.0"
+version = "1.7.0"
 description = "AI ML Training Platform with experiment tracking, model registry, hyperparameter optimization, LLM architecture suggestions, and real-time monitoring."
 authors = [
     { name = "Alan Vo", email = "alanvo@gmail.com" }

@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.7.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
+## 1.6.1 — work-in-progress checkpoint
+
+- Added test coverage for `_percentile` function with single-element list edge case:
+  - `_percentile([7], 50) == 7`: verifies single-element list at 50th percentile
+  - `_percentile([42], 99) == 42`: verifies single-element list at 99th percentile
+- All 11 existing benchmark tests continue to pass
+
 ## 1.6.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.

@@ -21,6 +21,7 @@ def test_percentile():
     assert _percentile([10, 20, 30], 99) == pytest.approx(29.8)
     assert _percentile([7], 50) == 7
     assert _percentile([42], 99) == 42
+    assert _percentile([1, 3], 50) == 2.0
 
 
 @pytest.mark.asyncio
